@@ -22,20 +22,24 @@ The following insights have been noted:
 - Similar relationship between market questions asked and time of year were found in both Uganda and Kenya
 - The ratio of market-related questions and non market-related questions saw significant change each year
 
-(IMAGE: DASHBOARD)
+[![Dashboard](images/dashboard.png)]()
 
 # Insights Deep Dive
 
 By analyzing key word similarities, I was able to determine which questioned were likely related to be asking about selling goods. By labelling these questions, I could analyze the percentage of these questions compared to all other quesitons asked. I first wanted to know which months saw the highest percentages of market related questions. What I found was that the ratio of market related quesitons was higher during peak harvest months for both Uganda and Kenya. We were informed that in Kenya the harvest months ranged was from January-February and June-August while Uganda harvest periods were from December-February and June-August. It was found based on the graphs below that the where questions related to selling were most concentrated were in January and July for both Kenya and Uganda. This is what was expected as both Kenya and Uganda have similar harvesting periods, and farmers would be likely to want to sell harvested crops during harvest season. Crucially, this noticably relationship between the concentration of market related questions and harvest period times supports the idea that the farming calendar can be mapped based on the types of questions being asked.
 
-[Sell Questions by Month (Kenya)]
-[Sell Questions by Month (Uganda)]
+
+[![Month_Kenya](images/ke-month.png)]()
+
+[![Month_Uganda](images/ug-month.png)]()
 
 
 When zooming in on this analysis and comparing by year, we can see that similar trends occur each year. When analyzing data for Uganda, the years 2018 and 2020 in particular have clear peaks in the concentration of selling related questions during harvest periods. Years 2017 and 2019 don't have as prominent of a correlation, but still have the two months with the highest concentration of market related questions fall within both harvest periods. 2021 saw this peak occur in May for reasons unknown, but may possibly have been related to unique weather and harvesting times that year. When analyzing the same data for Kenya, less of a correlation is present and the concentration of market based quesitons is much more stable throughout the calendar year. Some years, particularly 2018, still exhibit this correlation. It is possible Kenya has more varying harvest periods depending on the crop, but the reasons for the slight differences in question concentration between Uganda and Kenya are currently unclear.
 
-[Sell Questions by Year (Kenya)]
-[Sell Questions by Year (Uganda)]
+
+[![Year_Kenya](images/ke-year.png)]()
+
+[![Year_Uganda](images/ug-year.png)]()
 
 # Analysis Process
 
