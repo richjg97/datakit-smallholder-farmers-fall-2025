@@ -6,7 +6,7 @@ This folder contains my work for the Prep Challenge of the DataKit Fall 2025 pro
 
 The purpose of this preprocessing step is to make farmer messages easier to analyze in later challenges.
 
----
+
 
 ## **1. Objectives**
 
@@ -18,7 +18,7 @@ In this challenge, I focused on:
 * Documenting data quality issues that affected translation
 * Producing structured CSV files and a notebook showing the full workflow
 
----
+
 
 ## **2. Dataset Summary**
 
@@ -39,7 +39,7 @@ In this challenge, I focused on:
 * `question_sent` was not included, but translation was still possible.
 * Around **25 percent** of questions had missing topic labels.
 
----
+
 
 ## **3. Translation Workflow**
 
@@ -60,7 +60,7 @@ Each translated row includes:
 * English translation
 * Source language code
 
----
+
 
 ## **4. Keyword and Glossary Outputs**
 
@@ -76,7 +76,7 @@ After translation, I extracted frequently used agricultural terms.
 
 These outputs help reveal how farmers describe pests, crops, weather patterns, and other agricultural concerns.
 
----
+
 
 ## **5. Data Quality Issues Found**
 
@@ -94,7 +94,7 @@ Some were mislabeled or not recognized, requiring filtering.
 
 These issues were documented because they affect translation accuracy and later analysis.
 
----
+
 
 ## **6. Files Included in This Folder**
 
@@ -110,7 +110,7 @@ These issues were documented because they affect translation accuracy and later 
 * **prep_challenge_keyword_analysis.csv**
   Term-frequency keyword analysis
 
----
+
 
 ## **7. Summary**
 
