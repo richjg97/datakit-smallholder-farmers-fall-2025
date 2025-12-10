@@ -1,127 +1,190 @@
 
-# **Prep Challenge – Translating Farmer Questions (richjg97)**
+# Prep Challenge: Bridging Languages – Translating Farmer Conversations
 
-## **Overview**
+## 1. Background and Goal
 
-This folder contains my work for the Prep Challenge of the DataKit Fall 2025 program. The goal of this challenge is to translate farmer questions written in Swahili, Luganda, and Runyankore/Rukiga into clear English, and to create simple keyword and glossary outputs from the translations.
+Producers Direct supports smallholder farmers across East Africa. Farmers use digital tools to ask questions about crops, livestock, pests, diseases, soil, fertilizer and markets. Many of these questions are written in Swahili, Luganda and Runyankore or Rukiga.
 
-The purpose of this preprocessing step is to make farmer messages easier to analyze in later challenges.
+The goal of this Prep Challenge is to prepare these multilingual questions for later DataKit challenges by translating them into clear English and creating simple language resources that can support topic modeling, clustering and other NLP work.
 
+This submission focuses on the specific Prep Challenge goal:
 
+* Translate non English farmer questions into English
+* Build a glossary of how farmers talk about key agricultural terms
+* Create a keyword dataset that can be used for training future models
 
-## **1. Objectives**
+---
 
-In this challenge, I focused on:
+## 2. Data Used
 
-* Translating non-English farmer questions into English
-* Cleaning and preparing text for keyword extraction
-* Generating term-frequency lists and a small agricultural glossary
-* Documenting data quality issues that affected translation
-* Producing structured CSV files and a notebook showing the full workflow
+This work uses a sample from the Producers Direct farmer question dataset.
 
+For the Prep Challenge I worked with:
 
+* 5 000 non English questions
+* Languages in this sample
 
-## **2. Dataset Summary**
+  * Swahili
+  * Luganda
+  * Runyankore or Rukiga
 
-**Source file used:** `farmer_questions.csv`
+Key fields include
 
-**Important columns:**
+* question_id
+* question_language
+* question_content
+* question_topic
+* question_user_country_code
+* question_sent
 
-* `question_id`
-* `question_language`
-* `question_content`
-* `question_topic`
-* `question_user_country_code`
+All questions are anonymized and come from the WeFarm platform history that Producers Direct now stewards.
 
-**Key notes:**
+---
 
-* The dataset contains **over 20 million rows** because each question can have multiple responses.
-* I reduced this to a **question-level dataset** (one row per question) so translation would not repeat the same text.
-* `question_sent` was not included, but translation was still possible.
-* Around **25 percent** of questions had missing topic labels.
+## 3. Approach Overview
 
+The work is organized into four main steps.
 
+1. Select and clean the 5 000 non English questions
+2. Translate all 5 000 questions into English using the NLLB 200 model
+3. Check translation quality with simple automated checks plus manual review
+4. Produce the two suggested Prep Challenge outputs
 
-## **3. Translation Workflow**
+   * A farmer glossary for key agricultural terms
+   * A keyword and category dataset that can be used for training or clustering
 
-I used **Meta’s NLLB-200 (600M)** translation model to translate all non-English questions.
+The README focuses on the high level logic and insights. All code and notebooks are stored separately in this folder.
 
-### **Steps:**
+---
 
-1. Filter out English questions
-2. Translate remaining rows in batches
-3. Save each translation batch as a CSV file
-4. Append all results into a DuckDB table
-5. Track `question_id` to avoid re-translating duplicates
+## 4. Translation and Quality Checks
 
-Each translated row includes:
+All 5 000 non English questions were translated into English.
 
-* Original text
-* Cleaned/tokenized text
-* English translation
-* Source language code
+To check whether the translation was successful I used three types of checks.
 
+**Completeness checks**
 
+* Confirm there are no missing translations
+* Confirm there are no empty strings after translation
 
-## **4. Keyword and Glossary Outputs**
+**Repetition and machine error checks**
 
-After translation, I extracted frequently used agricultural terms.
+* Look for unusual repetition patterns in the English text
+* Flag very long or noisy outputs for inspection
 
-### **Process:**
+**Manual spot checks**
 
-* Lowercasing and removing punctuation
-* Tokenizing text into individual words
-* Counting term frequencies
-* Keeping words that appeared at least 5 times
-* Exporting keyword lists and glossary files as CSV
+* Manually review a small sample of translations from Swahili, Luganda and Runyankore or Rukiga
+* Confirm that key farming concepts such as maize, beans, soil, pests, chickens, cows, goats and fertilizer are preserved
 
-These outputs help reveal how farmers describe pests, crops, weather patterns, and other agricultural concerns.
+Overall result
 
+* All 5 000 rows have a non empty English translation
+* Only a small number of rows show clear machine repetition or awkward phrasing
+* For most rows the meaning is clear enough for clustering, keyword extraction and later modeling
 
+---
 
-## **5. Data Quality Issues Found**
+## 5. Output 1 – Farmer Glossary
 
-### **Duplicate `question_id` values**
+**Suggested output**
 
-Occurred because the raw dataset contains multiple responses per question.
+> A glossary about how farmers refer to key agriculture terms
 
-### **Missing topic labels**
+### How the glossary was created
 
-About one-quarter of entries had an empty topic field.
+* I scanned the translated English text for high frequency agricultural words
+* I focused on terms that match the Prep Challenge theme
+  such as crops, livestock, inputs, soil, pests, disease and weather
+* For each term I pulled up to three real example questions from farmers
+* I added a simple category for each term, such as
 
-### **Inconsistent language codes**
+  * crops
+  * livestock
+  * inputs
+  * soil
+  * weather
+  * disease or pests
 
-Some were mislabeled or not recognized, requiring filtering.
+The final glossary file is
 
-These issues were documented because they affect translation accuracy and later analysis.
+* `farmer_glossary_enhanced.csv`
 
+It contains
 
+* term
+* frequency
+* example_1
+* example_2
+* example_3
+* category
 
-## **6. Files Included in This Folder**
+### Insights from the glossary
 
-* **Prep_Challenge.ipynb - Colab.pdf**
-  Full notebook showing the translation workflow
+* Livestock appears very often in the data. Terms like chicken, hen, cow, goat and chicks show that animal health is a major concern.
+* Crop terms such as maize, beans, potato and sunflower are also frequent, often paired with questions about pests, fertilizer and yield.
+* Farmers use simple and informal phrasing instead of technical language. For example they ask why plants are turning yellow or why beans are not growing, rather than talking about nutrient deficiency.
+* Inputs like seed and fertilizer and actions like spraying are repeated themes across many questions.
+* Weather and soil terms appear in many contexts, hinting at climate and soil challenges even when they are not the main focus of the question.
 
-* **translated_batch_000.csv**
-  Example translation output
+This glossary captures how farmers actually talk about agriculture and can be used to support annotation, labeling and model design in later challenges.
 
-* **prep_challenge_glossary_batch000.csv**
-  Extracted agricultural glossary sample
+---
 
-* **prep_challenge_keyword_analysis.csv**
-  Term-frequency keyword analysis
+## 6. Output 2 – Keyword and Category Dataset
 
+**Suggested output**
 
+> Cluster or keyword analysis for key terms in local languages that will provide a datasets for training
 
-## **7. Summary**
+In this Prep Challenge I interpreted this as creating a dataset where each translated question is tagged with agricultural keywords and their categories. This gives a simple training ready signal that later models can use.
 
-The Prep Challenge prepares a cleaner and more structured version of farmer questions by:
+### How the keyword dataset was created
 
-* Removing duplicates
-* Translating all non-English content
-* Producing keyword lists and glossaries
-* Identifying quality issues for future reference
+* I used the glossary terms as the core vocabulary
+* For each translated question I searched for occurrences of these terms in the English text
+* I stored the matched terms in a keywords_found field
+* I mapped each term to its category from the glossary and stored those in a keyword_categories field
 
-This enables more accurate modeling, classification, and trend analysis in later challenges.
+The main file is
 
+* `farmer_keyword_dataset_with_categories.csv`
 
+Each row includes
+
+* the translated question text
+* a list of keywords found in that question
+* a list of the categories those keywords belong to
+
+### Insights from the keyword analysis
+
+* Many questions focus on livestock and crops together, for example chickens and maize in the same question. This suggests that future models should expect multi topic questions.
+* Inputs and treatments such as fertilizer, spray and medicine appear across both crop and livestock questions. This points to a strong need for advice on how much to apply, when to apply and how to treat disease.
+* Disease and pest related keywords show up frequently, supporting the idea that plant and animal health are core pain points for farmers.
+* Weather related terms are less frequent as direct topics but often appear in combination with pests, soil or yield, which suggests that weather is an important underlying factor.
+
+This keyword dataset can be used as a starting point for clustering, supervised training, or rule based labeling in later DataKit challenges.
+
+---
+
+## 7. Caveats and Assumptions
+
+* The glossary and keyword dataset are based on the 5 000 row sample, not the full 7.6 million questions. Patterns may change at full scale.
+* Machine translation can be imperfect, especially for low resource languages. Some nuance and local expressions may be lost.
+* The keyword list is not exhaustive. Farmers may use many other expressions that are not yet captured by the current terms.
+* Some questions mix many topics or are unclear, which can make category assignment noisy.
+
+These caveats should be kept in mind when using this Prep Challenge work in later analysis.
+
+---
+
+## 8. Use of Generative AI
+
+I used ChatGPT to help with
+
+* Drafting and refining the README text
+* Clarifying how to describe methods and insights in plain language
+* Brainstorming how to structure the glossary and keyword outputs
+
+All code and final decisions about data cleaning, translation steps and outputs were reviewed by me.
