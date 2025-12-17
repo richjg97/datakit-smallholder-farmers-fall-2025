@@ -14,7 +14,7 @@ This analysis directly addresses **Challenge 4** of the DataKit.
 
 ---
 
-## Stakeholder Context
+## Intended Audience
 
 This analysis is intended to support **Producers Direct product and content teams** in deciding how agricultural knowledge should be organized, reused, and delivered across different crops, regions, and seasonal contexts.
 
